@@ -1,0 +1,22 @@
+# Python
+venv/
+**/venv/
+__pycache__/
+*.pyc
+
+# Node.js
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Editor
+.vscode/
+
+# Logs
+*.log
