@@ -1,4 +1,4 @@
-# Campus Energy AI
+# Power IQ 
 
 React dashboard + FastAPI backend + Random Forest model that predicts room-level electricity use,
 flags unusual consumption, recommends actions, and reports energy saved and CO2 reduction.
