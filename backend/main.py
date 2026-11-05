@@ -1,3 +1,5 @@
+from pathlib import Path
+from fastapi.responses import StreamingResponse, FileResponse
 """FastAPI backend. Run: uvicorn main:app --reload"""
 import csv
 import io
@@ -9,7 +11,7 @@ import jwt
 import pandas as pd
 from fastapi import Depends, FastAPI, File, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+# from fastapi.responses import StreamingResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, Field
 
@@ -313,3 +315,20 @@ async def upload_csv(file: UploadFile = File(...), _=Depends(current_user)):
     m = train_model.train()
     predictor.load(force=True)
     return {"rows_loaded": len(df), "model": m}
+# ---------- React frontend ----------
+FRONTEND_DIST = Path(__file__).resolve().parent.parent / "frontend" / "dist"
+
+
+@app.get("/{full_path:path}", include_in_schema=False)
+def serve_frontend(full_path: str):
+    index_file = FRONTEND_DIST / "index.html"
+
+    if not index_file.exists():
+        raise HTTPException(404, "Frontend build not found.")
+
+    requested_file = (FRONTEND_DIST / full_path).resolve()
+
+    if FRONTEND_DIST.resolve() in requested_file.parents and requested_file.is_file():
+        return FileResponse(requested_file)
+
+    return FileResponse(index_file)

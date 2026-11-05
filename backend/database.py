@@ -30,8 +30,14 @@ def hash_password(password: str) -> str:
 def init_db():
     with conn() as c:
         c.executescript(SCHEMA)
-        if not c.execute("SELECT 1 FROM users LIMIT 1").fetchone():
-            c.execute("INSERT INTO users(email, password_hash) VALUES (?,?)", (ADMIN_EMAIL, hash_password(ADMIN_PASSWORD)))
+    c.execute(
+        """INSERT INTO users(email, password_hash)
+        VALUES (?, ?)
+        ON CONFLICT(email) DO UPDATE SET
+        password_hash=excluded.password_hash,
+        role='admin'""",
+        (ADMIN_EMAIL, hash_password(ADMIN_PASSWORD))
+    )
 
 
 def read_df(sql: str, params=()) -> pd.DataFrame:

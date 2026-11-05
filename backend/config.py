@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parent
@@ -26,7 +27,7 @@ COST_PER_KWH = 8.0        # INR per kWh (assumed tariff)
 ALERT_RATIO = 1.3
 ALERT_MIN_EXCESS = 0.8
 
-SECRET_KEY = "change-this-secret-before-deploying"
+SECRET_KEY = os.getenv("SECRET_KEY", "local-development-only-change-this")
 TOKEN_HOURS = 12
-ADMIN_EMAIL = "admin@pccoe.edu"
-ADMIN_PASSWORD = "admin123"
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "admin@pccoe.edu")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
