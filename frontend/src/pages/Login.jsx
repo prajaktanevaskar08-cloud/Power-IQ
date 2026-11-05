@@ -18,7 +18,7 @@ export default function Login({ onLogin }) {
   return (
     <div className="login">
       <form onSubmit={submit} className="panel">
-        <h1>Campus Energy AI</h1>
+        <h1>Power IQ </h1>
         <p className="muted">Log in to see usage, predictions and alerts.</p>
         <label>Email<input value={email} onChange={(e) => setEmail(e.target.value)} /></label>
         <label>Password<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} /></label>
